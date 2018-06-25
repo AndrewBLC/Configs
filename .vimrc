@@ -3,6 +3,7 @@ let mapleader=' '
 set nu
 set hlsearch
 set scrolloff=5
+set mouse=v
 
 " === Vundle setup ===
 set nocompatible	" required
