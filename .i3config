@@ -30,48 +30,29 @@ font pango:System San Francisco Display 12
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+t exec gnome-terminal
+bindsym $mod+t exec mate-terminal
 
 # start the browser
 bindsym $mod+c exec google-chrome-stable
 
 # start file browser
-bindsym $mod+n exec nautilus
-
-# start mailspring
-bindsym $mod+m exec mailspring
-
-# lock screen
-bindsym $mod+Shift+x exec ~/.config/i3/lockscreen.sh
+bindsym $mod+n exec nemo
 
 # take screenshots
-# simple screenshot
-bindsym $mod+Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpeg' -e 'mv $f ~/Pictures/screenshots/'
-# screenshot with an interface
-bindsym $mod+Shift+Print exec gnome-screenshot -i
+bindsym $mod+Print exec mate-screenshot -i
 
+# lock screen
+bindsym $mod+Shift+x exec mate-screensaver-command -l
 # kill focused window
 bindsym $mod+Escape kill
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -97,7 +78,7 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-floating_maximum_size 1800 x 1200
+floating_maximum_size 1280 x 720
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -106,7 +87,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -147,31 +128,13 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 assign [class="Google-chrome"] $ws2
 for_window [class="Spotify"] move to workspace $ws10
-assign [class="Mailspring"] $ws9
-assign [class="Atom"] $ws3
-assign [class="Totem"] $ws10
+for_window [class="Spotify"] floating enable
 assign [class="jetbrains-studio"] $ws3
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-
-# power buttons
-
-set $mode_system System (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id systemctl suspend, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
-
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-
-bindsym $mod+Shift+e mode "$mode_system"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -214,12 +177,12 @@ bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpeg
-exec_always --no-startup-id compton -fb --config ~/.config/compton.conf
-exec gnome-terminal
-exec nm-applet
+#exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpeg
+#exec_always --no-startup-id compton -fb --config ~/.config/compton.conf
+#exec gnome-terminal
+#exec nm-applet
 
-set $bg-color		 #2f343f
+set $bg-color		 #5294e2
 set $inactive-bg-color   #2f343f
 set $text-color          #f3f4f5
 set $inactive-text-color #676E7D
@@ -232,21 +195,21 @@ client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-col
 client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $bg-color
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color	   $bg-color
 
-hide_edge_borders both
+# i3gaps config
+gaps inner 10
+smart_gaps on
+hide_edge_borders smart_no_gaps
+bindsym $mod+g mode "gaps"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	colors {
-		background $bg-color
-		separator #757574
-		#                  border             background         text
-		focused_workspace  $bg-color          $bg-color          $text-color
-		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-	}
+mode "gaps" {
+    bindsym Up gaps inner all plus 5
+    bindsym Down gaps inner all minus 5
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
+
+for_window [class="^.*"] border pixel 1
 
 # start rofi (a program launcher)
 bindsym $mod+Return exec rofi -show run

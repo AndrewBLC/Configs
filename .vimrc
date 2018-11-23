@@ -1,6 +1,6 @@
 set encoding=utf-8
 let mapleader=' '
-set nu
+set relativenumber
 set hlsearch
 set scrolloff=5
 set mouse=v
@@ -25,7 +25,6 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
-Bundle 'Valloric/YouCompleteMe'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'scrooloose/nerdtree'
@@ -68,9 +67,6 @@ au BufNewFile,BufRead *.js, *.html, *.css:
     \ set softtabstop=2
     \ set shiftwidth=2
 
-" YCM settings
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "python with virtualenv support
 py << EOF
 import os
